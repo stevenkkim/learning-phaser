@@ -7,6 +7,7 @@ const config = {
   backgroundColor: "#cccccc",
   parent: "game",
   scene: [PlayScene],
+  powerPreference: "high-performance",
   physics: {
     default: "arcade",
     arcade: {
