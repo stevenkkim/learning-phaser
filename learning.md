@@ -46,6 +46,9 @@ const keys = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN');
 if (keys.RIGHT.isDown) { ... }
 ```
 
+### Misc
+- Full screen game: https://www.emanueleferonato.com/2019/02/06/give-your-html5-games-a-full-screen-option-and-manage-game-scaling-and-resizing-in-a-couple-of-lines-of-code-thanks-to-phaser-3-version-3-16/
+
 
 ### Phaser Collisions
 ```js

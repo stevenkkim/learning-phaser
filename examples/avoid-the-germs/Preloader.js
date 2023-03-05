@@ -1,34 +1,30 @@
-export default class Preloader extends Phaser.Scene
-{
-    constructor ()
-    {
+export default class Preloader extends Phaser.Scene {
+    constructor() {
         super('Preloader');
     }
 
-    preload ()
-    {
+    preload() {
         this.add.image(400, 300, 'background').setScale(2);
 
         this.loadText = this.add.bitmapText(400, 300, 'slime', 'Loading ...', 80).setOrigin(0.5);
 
-        this.load.setPath('assets/games/germs/');
+        this.load.setPath('assets');
         this.load.atlas('assets', 'germs.png', 'germs.json');
         this.load.glsl('goo', 'goo.glsl.js');
 
         //  Audio ...
-        this.load.setPath('assets/games/germs/sounds/');
+        this.load.setPath('assets/sounds');
 
-        this.load.audio('appear', [ 'appear.ogg', 'appear.m4a', 'appear.mp3' ]);
-        this.load.audio('fail', [ 'fail.ogg', 'fail.m4a', 'fail.mp3' ]);
-        this.load.audio('laugh', [ 'laugh.ogg', 'laugh.m4a', 'laugh.mp3' ]);
-        this.load.audio('music', [ 'music.ogg', 'music.m4a', 'music.mp3' ]);
-        this.load.audio('pickup', [ 'pickup.ogg', 'pickup.m4a', 'pickup.mp3' ]);
-        this.load.audio('start', [ 'start.ogg', 'start.m4a', 'start.mp3' ]);
-        this.load.audio('victory', [ 'victory.ogg', 'victory.m4a', 'victory.mp3' ]);
+        this.load.audio('appear', ['appear.ogg', 'appear.m4a', 'appear.mp3']);
+        this.load.audio('fail', ['fail.ogg', 'fail.m4a', 'fail.mp3']);
+        this.load.audio('laugh', ['laugh.ogg', 'laugh.m4a', 'laugh.mp3']);
+        this.load.audio('music', ['music.ogg', 'music.m4a', 'music.mp3']);
+        this.load.audio('pickup', ['pickup.ogg', 'pickup.m4a', 'pickup.mp3']);
+        this.load.audio('start', ['start.ogg', 'start.m4a', 'start.mp3']);
+        this.load.audio('victory', ['victory.ogg', 'victory.m4a', 'victory.mp3']);
     }
 
-    create ()
-    {
+    create() {
         //  Create our global animations
 
         this.anims.create({
@@ -59,8 +55,7 @@ export default class Preloader extends Phaser.Scene
             repeat: -1
         });
 
-        if (this.sound.locked)
-        {
+        if (this.sound.locked) {
             this.loadText.setText('Click to Start');
 
             this.input.once('pointerdown', () => {
@@ -69,8 +64,7 @@ export default class Preloader extends Phaser.Scene
 
             });
         }
-        else
-        {
+        else {
             this.scene.start('MainMenu');
         }
     }
