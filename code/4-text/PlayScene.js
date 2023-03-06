@@ -17,7 +17,9 @@ export class PlayScene extends Phaser.Scene {
     create() {
         this.add.image(0, 0, 'background').setOrigin(0, 0);
 
-        this.add.text(0, 0, 'Hello World', { fontSize: '140px', fontFamily: 'Mynerve' });
+        this.add.text(10, 10, 'Hello World', { fontSize: '40px', fontFamily: 'Mynerve' });
+        this.add.text(10, 200, 'Hello World', { fontSize: '40px', fontFamily: 'Dancing Script' });
+        this.add.text(10, 400, 'Hello World', { fontSize: '40px', fontFamily: 'Climate Crisis' });
 
 
 
@@ -46,7 +48,7 @@ export class PlayScene extends Phaser.Scene {
         this.walls[0].body.setImmovable(true);
         this.walls[1].body.setImmovable(true);
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 50; i++) {
             this.kitties[i] = this.physics.add.sprite(1200 * Math.random(), 800 * Math.random(), 'cat')
                 .setScale(.05)
                 .setCollideWorldBounds(true)
