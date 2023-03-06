@@ -16,8 +16,13 @@ export class PlayScene extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'background').setOrigin(0, 0);
+        let txt = this.add.text(0, 0, ['Hello world', "hi", 'there'], {
+            fontSize: '14px',
+        });
 
-        this.add.text(0, 0, 'Hello World', { fontSize: '140px', fontFamily: 'Mynerve' });
+        txt.x = 200
+        txt.y = 400
+        txt.setIn
 
 
 
