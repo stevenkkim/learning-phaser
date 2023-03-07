@@ -18,14 +18,14 @@ export function createRectangle(scene) {
     let y = Math.min(pointer.y, pointer.downY);
     let height = Math.abs(pointer.y - pointer.downY);
 
-    console.log(pointer.downX, pointer.downY, pointer.x - pointer.downX, pointer.y - pointer.downY);
-    console.log(x, y, width, height)
+    // console.log(pointer.downX, pointer.downY, pointer.x - pointer.downX, pointer.y - pointer.downY);
+    // console.log(x, y, width, height)
+    console.log(`${x}, ${y}, ${width}, ${height}`)
   });
 }
 
 export function updateRectangle(scene) {
   var graphics = scene.add.graphics();
-
 
 
   scene.input.on('pointermove', function (pointer) {
