@@ -1,3 +1,5 @@
+import { updateRectangle, createRectangle } from "./rectangle.js";
+
 export class PlayScene extends Phaser.Scene {
     constructor() {
         super('PlayScene')
@@ -15,16 +17,15 @@ export class PlayScene extends Phaser.Scene {
     }
 
     create() {
+
+
+        createRectangle(this);
+
         this.add.image(0, 0, 'background').setOrigin(0, 0);
-        let txt = this.add.text(0, 0, ['Hello world', "hi", 'there'], {
-            fontSize: '14px',
-        });
 
         this.add.text(10, 10, 'Hello World', { fontSize: '40px', fontFamily: 'Mynerve' });
         this.add.text(10, 200, 'Hello World', { fontSize: '40px', fontFamily: 'Dancing Script' });
         this.add.text(10, 400, 'Hello World', { fontSize: '40px', fontFamily: 'Climate Crisis' });
-
-
 
         this.keys = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN')
 
@@ -40,7 +41,7 @@ export class PlayScene extends Phaser.Scene {
 
         this.walls.push(
             this.physics.add.existing(
-                this.add.rectangle(0, 355, 320, 160, 0x000000, 0.2).setOrigin(0)
+                this.add.rectangle(10, 360, 350, 150, 0x000000, 0.2).setOrigin(0)
             )
         );
         this.walls.push(
@@ -51,7 +52,7 @@ export class PlayScene extends Phaser.Scene {
         this.walls[0].body.setImmovable(true);
         this.walls[1].body.setImmovable(true);
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 2; i++) {
             this.kitties[i] = this.physics.add.sprite(1200 * Math.random(), 800 * Math.random(), 'cat')
                 .setScale(.05)
                 .setCollideWorldBounds(true)
@@ -108,6 +109,11 @@ export class PlayScene extends Phaser.Scene {
         // this.player.body.velocity.x *= 0.96;
         // this.player.body.velocity.y *= 0.96;
 
+
+        updateRectangle(this);
+
     }
+
+
 
 }
