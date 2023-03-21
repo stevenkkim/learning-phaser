@@ -106,6 +106,12 @@ export class PlayScene extends Phaser.Scene {
             frameRate,
             repeat: -1,
         })
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 0 }),
+            frameRate,
+            repeat: -1,
+        })
 
 
         this.player.anims.play('down-idle')
@@ -128,7 +134,7 @@ export class PlayScene extends Phaser.Scene {
             this.kitties[i] = this.physics.add.sprite(1200 * Math.random(), 800 * Math.random(), 'cat')
                 .setScale(.05)
                 .setCollideWorldBounds(true)
-                .setImmovable(false)
+                .setImmovable(true)
                 .setCircle(300)
                 .setOffset(120, 150)
                 .setBounce(2, 2)
@@ -152,11 +158,15 @@ export class PlayScene extends Phaser.Scene {
             // this.player.x -= 10;
         }
         else if (this.keys.LEFT.isDown) {
-            this.player.body.velocity.x = -VELOCITY;
+            // this.player.body.velocity.x = -VELOCITY;
+            this.player.setVelocityX(-VELOCITY);
+            this.player.anims.play('left-walk', true)
             // this.player.x -= 10;
         }
         else if (this.keys.RIGHT.isDown) {
-            this.player.body.velocity.x = VELOCITY;
+            // this.player.body.velocity.x = VELOCITY;
+            this.player.setVelocityX(VELOCITY);
+            this.player.anims.play('right-walk', true)
             // this.player.x += 10;
         }
         else {
@@ -170,26 +180,31 @@ export class PlayScene extends Phaser.Scene {
         }
         else if (this.keys.UP.isDown) {
             this.player.body.velocity.y = -VELOCITY;
+            this.player.anims.play('up-walk', true)
             // this.player.y -= 10;
         }
         else if (this.keys.DOWN.isDown) {
             this.player.body.velocity.y = VELOCITY;
+            this.player.anims.play('down-walk', true)
             // this.player.y += 10;
         }
         else {
             this.player.body.velocity.y = 0;
         }
 
+        if (this.player.body.velocity.x === 0 && this.player.body.velocity.y === 0) {
+            this.player.anims.play('idle', true)
+        }
 
-        if (Phaser.Input.Keyboard.JustDown(this.keys.UP)) this.player.anims.play('up-walk')
-        else if (Phaser.Input.Keyboard.JustUp(this.keys.UP)) this.player.anims.play('up-idle')
-        else if (Phaser.Input.Keyboard.JustDown(this.keys.DOWN)) this.player.anims.play('down-walk')
-        else if (Phaser.Input.Keyboard.JustUp(this.keys.DOWN)) this.player.anims.play('down-idle')
 
-        if (Phaser.Input.Keyboard.JustDown(this.keys.LEFT)) this.player.anims.play('left-walk')
-        else if (Phaser.Input.Keyboard.JustUp(this.keys.LEFT)) this.player.anims.play('left-idle')
-        else if (Phaser.Input.Keyboard.JustDown(this.keys.RIGHT)) this.player.anims.play('right-walk')
-        else if (Phaser.Input.Keyboard.JustUp(this.keys.RIGHT)) this.player.anims.play('right-idle')
+        // if (Phaser.Input.Keyboard.JustDown(this.keys.UP)) this.player.anims.play('up-walk')
+        // else if (Phaser.Input.Keyboard.JustUp(this.keys.UP)) this.player.anims.play('up-idle')
+        // else if (Phaser.Input.Keyboard.JustDown(this.keys.DOWN)) this.player.anims.play('down-walk')
+        // else if (Phaser.Input.Keyboard.JustUp(this.keys.DOWN)) this.player.anims.play('down-idle')
+        // if (Phaser.Input.Keyboard.JustDown(this.keys.LEFT)) this.player.anims.play('left-walk')
+        // else if (Phaser.Input.Keyboard.JustUp(this.keys.LEFT)) this.player.anims.play('left-idle')
+        // else if (Phaser.Input.Keyboard.JustDown(this.keys.RIGHT)) this.player.anims.play('right-walk')
+        // else if (Phaser.Input.Keyboard.JustUp(this.keys.RIGHT)) this.player.anims.play('right-idle')
 
         // this.player.body.velocity.x *= 0.96;
         // this.player.body.velocity.y *= 0.96;
