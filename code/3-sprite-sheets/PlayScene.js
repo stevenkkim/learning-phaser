@@ -32,6 +32,20 @@ export class PlayScene extends Phaser.Scene {
 
         this.load.setPath('../../assets/');
         this.load.image('cat', 'cat.png');
+
+        this.load.setPath('./assets');
+
+        // this.load.image('down-idle-1'); // with no url argument default is 'key'.png
+        // this.load.image('down-idle-2');
+        // this.load.image('down-walk-1');
+        // this.load.image('down-walk-2');
+
+        [
+            'down-idle-1',
+            'down-idle-2',
+            'down-walk-1',
+            'down-walk-2',
+        ].forEach(key => this.load.image(key));
     }
 
     create() {
@@ -60,7 +74,9 @@ export class PlayScene extends Phaser.Scene {
 
         this.anims.create({
             key: 'down-idle',
-            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 1 }),
+            // frames: this.anims.generateFrameNumbers('player', { start: 0, end: 1 }), // use part of spritesheet
+            frames: [{ key: 'down-idle-1' }, { key: 'down-idle-2' }], // use separate images
+            // frames: 'player', // use entire spritesheet
             frameRate,
             repeat: -1,
         })
@@ -141,20 +157,29 @@ export class PlayScene extends Phaser.Scene {
             .setOffset(120, 150)
             .setBounce(1)
 
-        this.catCircle = this.physics.add.sprite(690, 500, 'cat')
-            .setScale(.05)
-            // .setCollideWorldBounds(true)
-            // .setImmovable(true)
-            .setCircle(900)
-            .setOffset(-450, -450)
-            .setAlpha(0)
+        // Rectangle zone
+        this.zone = this.physics.add.existing(
+            this.add.zone(100, 100, 100, 100)
+        );
+        // Hack for circle zone: https://stackoverflow.com/questions/56410746/phaser-3-create-circle-zone
+        // this.zone = this.add.zone(100, 100, 100, 100);
+        // this.physics.world.enable(this.zone);
+        // this.zone.body.setCircle(100);
+
+        //        this.catCircle = this.physics.add.sprite(690, 500, 'cat')
+        //            .setScale(.05)
+        //            // .setCollideWorldBounds(true)
+        //            // .setImmovable(true)
+        //            .setCircle(900)
+        //            .setOffset(-450, -450)
+        //            .setAlpha(0)
 
         this.circle = this.physics.add.existing(this.add.circle(200, 200, 80, 0x6666ff))
 
 
 
 
-        this.physics.add.overlap(this.player, this.catCircle, () => { console.log('circle') }, null, this)
+        this.physics.add.overlap(this.player, this.zone, () => { console.log('circle') }, null, this)
 
         /*
         this.cat.setInteractive().on('pointerdown', function () {
@@ -264,11 +289,13 @@ export class PlayScene extends Phaser.Scene {
         }
 
         if (this.player.body.velocity.x === 0 && this.player.body.velocity.y === 0) {
-            this.player.anims.play('idle', true)
+            this.player.anims.play('down-idle', true)
         }
 
-        this.catCircle.body.x = this.cat.body.x
-        this.catCircle.body.y = this.cat.body.y
+        // this.catCircle.body.x = this.cat.body.x
+        // this.catCircle.body.y = this.cat.body.y
+        this.zone.body.x = this.cat.body.x
+        this.zone.body.y = this.cat.body.y
 
 
         // if (Phaser.Input.Keyboard.JustDown(this.keys.UP)) this.player.anims.play('up-walk')
