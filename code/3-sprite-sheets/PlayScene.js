@@ -36,13 +36,14 @@ export class PlayScene extends Phaser.Scene {
 
     create() {
 
+        console.log(this)
+
         this.add.image(0, 0, 'grass').setOrigin(0, 0).setScale(2).setCrop(0, 0, 50, 50);
         this.add.image(0, 0, 'grass-ss',).setOrigin(0, 0).setScale(2);
 
 
         this.add.tileSprite()
         this.keys = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN')
-
 
 
         this.player = this.physics.add.sprite(800, 450, 'player',)
@@ -54,7 +55,6 @@ export class PlayScene extends Phaser.Scene {
             // .setFriction(.5)
             .setBounce(1, 1)
             .setCrop()
-
 
         const frameRate = 4;
 
@@ -116,6 +116,62 @@ export class PlayScene extends Phaser.Scene {
 
         this.player.anims.play('down-idle')
 
+        // this.player.setImmovable(true);
+
+        this.player.setInteractive();
+
+        this.input.setDraggable(this.player);
+        // https://newdocs.phaser.io/docs/3.55.2/Phaser.Input.Events
+        this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+            console.log('drag')
+            gameObject.x = dragX;
+            gameObject.y = dragY;
+        });
+        this.input.on('dragend', function (pointer, gameObject, dragX, dragY) {
+            console.log(`dragend: { x: ${gameObject.x}, y: ${gameObject.y}}`);
+        });
+
+
+
+        this.cat = this.physics.add.sprite(700, 500, 'cat')
+            .setScale(.05)
+            .setCollideWorldBounds(true)
+            // .setImmovable(true)
+            .setCircle(300)
+            .setOffset(120, 150)
+            .setBounce(1)
+
+        this.catCircle = this.physics.add.sprite(690, 500, 'cat')
+            .setScale(.05)
+            // .setCollideWorldBounds(true)
+            // .setImmovable(true)
+            .setCircle(900)
+            .setOffset(-450, -450)
+            .setAlpha(0)
+
+        this.circle = this.physics.add.existing(this.add.circle(200, 200, 80, 0x6666ff))
+
+
+
+
+        this.physics.add.overlap(this.player, this.catCircle, () => { console.log('circle') }, null, this)
+
+        /*
+        this.cat.setInteractive().on('pointerdown', function () {
+            if (this.scene.scale.isFullscreen) {
+                this.scene.scale.stopFullscreen();
+                // On stop fulll screen
+            } else {
+                this.scene.scale.startFullscreen();
+                // On start fulll screen
+            }
+        });
+        */
+
+
+
+
+        this.bodyData = this.add.text(10, 10, "", { fontSize: '14px', fontFamily: 'Courier', color: '#000' });
 
         this.walls.push(
             this.physics.add.existing(
@@ -130,18 +186,22 @@ export class PlayScene extends Phaser.Scene {
         this.walls[0].body.setImmovable(true);
         this.walls[1].body.setImmovable(true);
 
-        for (let i = 0; i < 5; i++) {
-            this.kitties[i] = this.physics.add.sprite(1200 * Math.random(), 800 * Math.random(), 'cat')
-                .setScale(.05)
-                .setCollideWorldBounds(true)
-                .setImmovable(true)
-                .setCircle(300)
-                .setOffset(120, 150)
-                .setBounce(2, 2)
+        //for (let i = 0; i < 5; i++) {
+        //    this.kitties[i] = this.physics.add.sprite(1200 * Math.random(), 800 * Math.random(), 'cat')
+        //        .setScale(.05)
+        //        .setCollideWorldBounds(true)
+        //        .setImmovable(true)
+        //        .setCircle(300)
+        //        .setOffset(120, 150)
+        //        .setBounce(2, 2)
+        //
+        //    this.kitties[i].body.setMaxSpeed(500)
+        //}
 
-            this.kitties[i].body.setMaxSpeed(500)
-        }
 
+
+        this.physics.add.collider(this.player, this.cat, () => { console.log('hello') }, null, this)
+        // this.physics.add.overlap(this.player, this.cat, () => { console.log('hello') }, null, this);
 
 
         this.physics.add.collider(this.player, this.walls, () => { console.log('hello') }, null, this)
@@ -151,6 +211,17 @@ export class PlayScene extends Phaser.Scene {
     }
 
     update() {
+        const body = {
+            blocked: this.player.body.blocked,
+            overlapR: this.player.body.overlapR,
+            overlapX: this.player.body.overlapX,
+            overlapY: this.player.body.overlapY,
+            touching: this.player.body.touching,
+            wasTouching: this.player.body.wasTouching,
+        }
+
+        // this.bodyData.text = JSON.stringify(body, null, 2);
+        this.bodyData.setText(JSON.stringify(body, null, 2));
 
         const VELOCITY = 250;
         if (this.keys.LEFT.isDown && this.keys.RIGHT.isDown) {
@@ -195,6 +266,9 @@ export class PlayScene extends Phaser.Scene {
         if (this.player.body.velocity.x === 0 && this.player.body.velocity.y === 0) {
             this.player.anims.play('idle', true)
         }
+
+        this.catCircle.body.x = this.cat.body.x
+        this.catCircle.body.y = this.cat.body.y
 
 
         // if (Phaser.Input.Keyboard.JustDown(this.keys.UP)) this.player.anims.play('up-walk')

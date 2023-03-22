@@ -2,12 +2,11 @@ import { PlayScene } from "./PlayScene.js"
 
 const config = {
   type: Phaser.AUTO,
-  width: 1000,
-  height: 750,
-  backgroundColor: "#C0D470",
+  width: 1200,
+  height: 800,
+  backgroundColor: "#cccccc",
   parent: "game",
   scene: [PlayScene],
-  pixelArt: true,
   physics: {
     default: "arcade",
     arcade: {
