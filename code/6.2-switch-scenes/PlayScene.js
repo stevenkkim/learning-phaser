@@ -1,3 +1,7 @@
+import { LoadMap1 } from "./LoadMap1.js"
+import { LoadMap2 } from "./LoadMap2.js";
+import { LoadMap3 } from "./LoadMap3.js";
+
 let keys;
 
 export class PlayScene extends Phaser.Scene {
@@ -25,25 +29,13 @@ export class PlayScene extends Phaser.Scene {
         keys = this.input.keyboard.addKeys('LEFT,RIGHT,UP,DOWN')
 
         if (this.currentMap === 1) {
-            this.cameras.main.setBackgroundColor(0x7cd95d);
-            this.player = this.physics.add.sprite(this.startingX, this.startingY, 'cat').setScale(3);
-            this.add.sprite(400, 450, 'thin-tree').setScale(3);
-            this.add.sprite(200, 250, 'thin-tree').setScale(3);
-            this.add.sprite(700, 150, 'thin-tree').setScale(3);
+            LoadMap1(this);
         }
         if (this.currentMap === 2) {
-            this.cameras.main.setBackgroundColor(0x5ea871);
-            this.player = this.physics.add.sprite(this.startingX, this.startingY, 'cat').setScale(3);
-            this.add.sprite(600, 150, 'fat-tree').setScale(3);
-            this.add.sprite(250, 350, 'fat-tree').setScale(3);
-            this.add.sprite(100, 150, 'fat-tree').setScale(3);
+            LoadMap2(this);
         }
         if (this.currentMap === 3) {
-            this.cameras.main.setBackgroundColor(0x88db9d);
-            this.player = this.physics.add.sprite(this.startingX, this.startingY, 'cat').setScale(3);
-            this.add.sprite(100, 150, 'red-mushrooms').setScale(3);
-            this.add.sprite(400, 350, 'red-mushrooms').setScale(3);
-            this.add.sprite(750, 250, 'red-mushrooms').setScale(3);
+            LoadMap3(this);
         }
 
         this.player.setCollideWorldBounds(true);
